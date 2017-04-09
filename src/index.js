@@ -1,14 +1,32 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const apn = require('apn')
 
 let app = express()
 let port = process.env.PORT || 3000
 app.use(bodyParser.json())
 
+let options = {
+  token: {
+    key: "key",
+    keyId: "",
+    teamId: ""
+  },
+  production: false
+}
+let apnProvider = new apn.Provider(options);
+
 let clients = {}
 
 function send_notification(device_id, url) {
+	let note = new apn.Notification();
 
+	note.expiry = Math.floor(Date.now() / 1000) + 3600;
+	note.payload = {'track_url': url};
+	note.topic = "fi.vaaraj.jukeboxly";
+
+	apnProvider.send(note, deviceToken).then( (result) => {
+	} );
 }
 
 function generate_id(length) {
@@ -51,7 +69,7 @@ app.post("/addTrack/:token", function (req, res) {
 	
 	if (clients[token_id]) {
 		if (req.body.track_url) {	
-			send_notification(clients[token_id], req.body.track_url)
+			//send_notification(clients[token_id], req.body.track_url)
 			res.json({status: "ok"})
 		}
 		else {
