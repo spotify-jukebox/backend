@@ -81,6 +81,10 @@ app.post("/addTrack/:token", function (req, res) {
 	}
 })
 
+app.get("/", function(req, res) {
+	res.json({status: "ok"})
+})
+
 app.listen(port, function () {
 	  console.log('Listening on port ' + port)
 })
