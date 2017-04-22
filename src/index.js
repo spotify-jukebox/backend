@@ -52,6 +52,11 @@ function generate_id(length) {
 app.post('/generate', function (req, res) {
 	let device_token = req.body.device_token
 
+	if (device_token) {
+		res.json({error: "Give device token"})
+		return 
+	}
+
 	while(true) {
 		let id = generate_id(3)
 		
