@@ -14,7 +14,7 @@ let options = {
   },
   production: false
 }
-let apnProvider = new apn.Provider(options);
+let apnProvider = undefined//new apn.Provider(options);
 
 let clients = {}
 
