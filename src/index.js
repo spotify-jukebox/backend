@@ -7,8 +7,8 @@ let port = process.env.PORT || 3000
 app.use(bodyParser.json())
 
 let options = {
-	cert: "cert/cert.pem",
-	key: "cert/key.pem",
+	cert: process.env.CERT || "cert/cert.pem",
+	key: process.env.KEY || "cert/key.pem",
 	production: false
 }
 let apnProvider = new apn.Provider(options);
