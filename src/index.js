@@ -8,7 +8,7 @@ let app = express()
 let port = process.env.PORT || 3000
 app.use(bodyParser.json())
 
-let clients = {}
+let clients = {"tiger-wolf-dog": {"device_token": "dummy", "name": "pileet"}}
 
 let require_list = (req, res, next) => {
 	if (req.params.token && clients[req.params.token]) {
