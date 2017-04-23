@@ -21,7 +21,7 @@ let require_list = (req, res, next) => {
 		next()
 	}
 	else {
-		res.json({error: "Invalid token"})
+		res.status(400).json({error: "Invalid token"})
 	}	
 }
 
@@ -53,7 +53,7 @@ app.post('/generate', (req, res) => {
 	let device_token = req.body.device_token
 
 	if (!device_token) {
-		res.json({error: "Give device token"})
+		res.status(400).json({error: "Give device token"})
 		return 
 	}
 
@@ -78,7 +78,7 @@ app.post("/list/:token/", require_list, (req, res) => {
 		res.json({status: "ok"})
 	}
 	else {
-		res.json({error: "Give url"})
+		res.status(400).json({error: "Give url"})
 	}
 })
 
