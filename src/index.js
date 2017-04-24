@@ -8,7 +8,7 @@ let app = express()
 let port = process.env.PORT || 3000
 app.use(bodyParser.json())
 
-let clients = {"tiger-wolf-dog": {"device_token": "dummy", "name": "pileet"}}
+let clients = {"tiger-wolf-dog": {"device_token": "dummy", "name": "pileet", "tracks": []}}
 
 let require_list = (req, res, next) => {
 	if (req.params.token && clients[req.params.token]) {
@@ -34,7 +34,8 @@ app.post('/generate', (req, res) => {
 		if (!clients[id]) {
 			clients[id] = {
 				device_token: device_token,
-				name: req.body.name ? req.body.name : "No name"
+				name: req.body.name ? req.body.name : "No name",
+				tracks: []
 			}
 
 			res.json({token: id})
@@ -44,8 +45,12 @@ app.post('/generate', (req, res) => {
 })
 
 app.post("/list/:token/", require_list, (req, res) => {
-	if (req.body.track_url) {	
-		//notificationSender(req.client.name, req.body.track_url)
+	const track_url = req.body.track_url
+
+	if (track_url) {	
+		//notificationSender(req.client.name, track_url)
+		req.client.tracks.push(track_url)
+
 		res.json({status: "ok"})
 	}
 	else {
@@ -58,6 +63,12 @@ app.get("/list/:token", require_list, (req, res) => {
 		name: req.client.name
 	})
 })
+app.get("/list/:token/tracks", require_list, (req, res) => {
+	res.json({
+		tracks: req.client.tracks
+	})
+})
+
 
 app.get("/", function(req, res) {
 	res.json({status: "ok"})
