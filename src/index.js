@@ -48,7 +48,7 @@ app.post("/list/:token/", require_list, (req, res) => {
 	const track_url = req.body.track_url
 
 	if (track_url) {	
-		//notificationSender(req.client.name, track_url)
+		notificationSender(req.client.name, track_url)
 		req.client.tracks.push(track_url)
 
 		res.json({status: "ok"})
