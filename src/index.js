@@ -39,6 +39,8 @@ app.post('/generate', (req, res) => {
 				queue: []
 			}
 
+			console.log("Created host", clients[id])
+
 			res.json({token: id})
 			break
 		}
