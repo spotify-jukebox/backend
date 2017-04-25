@@ -12,6 +12,9 @@ module.exports = (device_id, url) => {
 	let note = new apn.Notification()
 
 	note.expiry = Math.floor(Date.now() / 1000) + 3600
+	note.badge = 0;
+	note.sound = "";
+	note.alert = "";
 	note.payload = {'track_url': url}
 	note.topic = "fi.vaaraj.jukeboxly"
 
