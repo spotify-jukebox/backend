@@ -15,6 +15,9 @@ module.exports = (device_id, url) => {
 	note.payload = {'track_url': url}
 	note.topic = "fi.vaaraj.jukeboxly"
 
-	apnProvider.send(note, deviceToken).then( (result) => {
-	} )
+	apnProvider.send(note, device_id).then(result => {
+		console.log(result)
+	} ).catch(err => {
+		console.log(err)
+	})
 }

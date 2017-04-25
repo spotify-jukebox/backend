@@ -63,6 +63,7 @@ app.get("/list/:token", require_list, (req, res) => {
 		name: req.client.name
 	})
 })
+
 app.get("/list/:token/tracks", require_list, (req, res) => {
 	res.json({
 		tracks: req.client.tracks
