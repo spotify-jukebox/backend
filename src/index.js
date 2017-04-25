@@ -8,7 +8,7 @@ let app = express()
 let port = process.env.PORT || 3000
 app.use(bodyParser.json())
 
-let clients = {"tiger-wolf-dog": {"device_token": "dummy", "name": "pileet", "tracks": []}}
+let clients = {"tiger-wolf-dog": {"device_token": "dummy", "name": "pileet", "tracks": [], "queue": []}}
 
 let require_list = (req, res, next) => {
 	if (req.params.token && clients[req.params.token]) {
@@ -35,7 +35,8 @@ app.post('/generate', (req, res) => {
 			clients[id] = {
 				device_token: device_token,
 				name: req.body.name ? req.body.name : "No name",
-				tracks: []
+				tracks: [],
+				queue: []
 			}
 
 			res.json({token: id})
@@ -48,8 +49,9 @@ app.post("/list/:token/", require_list, (req, res) => {
 	const track_url = req.body.track_url
 
 	if (track_url) {	
-		notificationSender(req.client.name, track_url)
+		notificationSender(req.client.device_token, track_url)
 		req.client.tracks.push(track_url)
+		req.client.queue.push(track_url)
 
 		res.json({status: "ok"})
 	}
@@ -68,6 +70,14 @@ app.get("/list/:token/tracks", require_list, (req, res) => {
 	res.json({
 		tracks: req.client.tracks
 	})
+})
+
+app.get("/list/:token/queue", require_list, (req, res) => {
+	res.json({
+		tracks: req.client.queue
+	})
+
+	req.client.queue = []
 })
 
 
